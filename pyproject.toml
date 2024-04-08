@@ -1,0 +1,12 @@
+[tool.poetry]
+name = "python-sample-upload-google-spreadsheet"
+description = "TSVデータをGoogleスプレッドシートにアップロードする"
+version = "1.0.0"
+readme = "README.md"
+license = "LICENSE"
+authors = ["yagrush"]
+
+[tool.pytest.ini_options]
+pythonpath = ["app"]
+testpaths = ["tests"]
+python_files = ["test_*.py"]

@@ -1,3 +1,6 @@
+test:
+	pytest
+
 up:
 	docker-compose up
 

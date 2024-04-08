@@ -29,6 +29,7 @@ python -m venv .venv
 chmod 777 .venv/bin/activate
 source ./.venv/bin/activate
 
+pip install pytest
 pip install gspread
 pip install python-dotenv
 ```
