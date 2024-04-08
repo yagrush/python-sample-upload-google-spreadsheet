@@ -3,15 +3,14 @@ Constant types in Python.
 """
 
 import sys
+import errors
 
 
 class _const:
-    class ConstError(TypeError):
-        pass
 
     def __setattr__(self, name, value):
         if name in self.__dict__:
-            raise self.ConstError("Can't rebind const (%s)" % name)
+            raise errors.ConstError("Can't rebind const (%s)" % name)
         self.__dict__[name] = value
 
 
