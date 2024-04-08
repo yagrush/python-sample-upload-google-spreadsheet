@@ -1,0 +1,15 @@
+version: '3'
+services:
+    app-python-sample-upload-google-spreadsheet:
+        container_name: app-python-sample-upload-google-spreadsheet
+        image: app-python-sample-upload-google-spreadsheet
+        build:
+            context: .
+            dockerfile: Dockerfile
+        volumes:
+            - vol-app-python-sample-upload-google-spreadsheet:/app
+        # tty:
+        #    true
+
+volumes:
+    vol-app-python-sample-upload-google-spreadsheet:
