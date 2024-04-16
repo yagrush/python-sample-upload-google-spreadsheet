@@ -20,7 +20,8 @@ def upload_google_spreadsheet(
     google_spreadsheet_upload_file_name,
     google_spreadsheet_upload_folder_id,
     tsv_file_path,
-    worksheet_name: str,
+    worksheet_name,
+    file_path_worksheet_id: str,
 ) -> None:
     dir_path = Path(__file__).resolve().parent.parent
 
@@ -44,7 +45,7 @@ def upload_google_spreadsheet(
             raise Exception("data file invalid")
 
         # TSVデータを２次元配列に変換
-        lines = [row for row in csv_reader]
+        lines = [[col if line_no == 0 or i == 0 else float(col) for i, col in enumerate(row)] for line_no, row in enumerate(csv_reader)]
         if len(lines) < 1:
             print("data file line_num < 1. no data")
             return
@@ -52,9 +53,7 @@ def upload_google_spreadsheet(
         # スプレッドシート内のシートを取得
         work_sheet = util.get_google_work_sheet(
             spread_sheet=spread_sheet,
-            file_path_worksheet_id=os.path.join(
-                dir_path, const.GOOGLE_SPREADSHEET_WORKSHEET_ID
-            ),
+            file_path_worksheet_id=file_path_worksheet_id,
             worksheet_name=worksheet_name,
             rows=len(lines),
             cols=len(lines[0]),
@@ -87,6 +86,9 @@ def main():
         ],
         tsv_file_path=os.path.join(dir_path, os.environ["FILENAME_DATA_TSV"]),
         worksheet_name=os.environ["GOOGLE_SPREADSHEET_WORKSHEET_NAME"],
+        file_path_worksheet_id=os.path.join(
+            dir_path, const.GOOGLE_SPREADSHEET_WORKSHEET_ID
+        ),
     )
 
 
