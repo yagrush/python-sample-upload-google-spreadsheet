@@ -21,6 +21,9 @@ stop:
 
 down:
 	docker-compose down
+
+down-v:
+	docker-compose down
 	@make rm-vol
 
 rm:
@@ -43,3 +46,18 @@ run:
 
 req:
 	pip freeze > requirements.txt
+
+venv:
+	python -m venv .venv
+	chmod 777 .venv/bin/activate
+	source ./.venv/bin/activate
+	pip install pytest
+	pip install gspread
+	pip install python-dotenv
+	pip install PyYAML
+
+deactivate:
+	deactivate
+
+pip-r:
+	pip install -r requirements.txt
