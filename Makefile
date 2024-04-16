@@ -1,13 +1,13 @@
 test:
-	pytest
+	pytest -vv
 
 up:
 	docker-compose up
 
-up-build:
+up-d:
 	docker-compose up --build
 
-up-build-d:
+up-dd:
 	docker-compose up --build -d
 
 clear:
