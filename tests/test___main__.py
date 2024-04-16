@@ -1,5 +1,6 @@
 """__main__.pyの単体テスト"""
 
+import asyncio
 import os
 from pathlib import Path
 import csv
@@ -59,9 +60,7 @@ def setup_test(tmpdir):
         os.environ["GOOGLE_SPREADSHEET_UPLOAD_FOLDER_ID"],
         csv_file_path,
         "test",
-        os.path.join(
-            dir_path, TEST_GOOGLE_SPREADSHEET_WORKSHEET_ID
-        )
+        os.path.join(dir_path, TEST_GOOGLE_SPREADSHEET_WORKSHEET_ID),
     )
 
     # テストの後処理： 不要なファイルを消す
@@ -82,18 +81,20 @@ def test_upload_google_spreadsheet(setup_test):
             google_spreadsheet_upload_folder_id,
             tsv_file_path,
             worksheet_name,
-            file_path_worksheet_id
+            file_path_worksheet_id,
         ) = setup_test
 
-        app.__main__.upload_google_spreadsheet(
-            credentials_filepath,
-            authorized_user_filepath,
-            file_path_spreadsheet_file_id,
-            google_spreadsheet_upload_file_name,
-            google_spreadsheet_upload_folder_id,
-            tsv_file_path,
-            worksheet_name,
-            file_path_worksheet_id
+        asyncio.run(
+            app.__main__.upload_google_spreadsheet(
+                credentials_filepath,
+                authorized_user_filepath,
+                file_path_spreadsheet_file_id,
+                google_spreadsheet_upload_file_name,
+                google_spreadsheet_upload_folder_id,
+                tsv_file_path,
+                worksheet_name,
+                file_path_worksheet_id,
+            )
         )
 
         gc = gspread.oauth(
@@ -101,11 +102,13 @@ def test_upload_google_spreadsheet(setup_test):
             authorized_user_filename=authorized_user_filepath,
         )
 
-        spread_sheet = util.get_google_spread_sheet(
-            gc=gc,
-            file_path_spreadsheet_file_id=file_path_spreadsheet_file_id,
-            file_name=google_spreadsheet_upload_file_name,
-            folder_id=google_spreadsheet_upload_folder_id,
+        spread_sheet = asyncio.run(
+            util.get_google_spread_sheet(
+                gc=gc,
+                file_path_spreadsheet_file_id=file_path_spreadsheet_file_id,
+                file_name=google_spreadsheet_upload_file_name,
+                folder_id=google_spreadsheet_upload_folder_id,
+            )
         )
 
         try:
@@ -114,17 +117,25 @@ def test_upload_google_spreadsheet(setup_test):
                 if csv_reader is None:
                     raise Exception("data file invalid")
 
-                lines = [[col if line_no == 0 or i == 0 else str(col) for i, col in enumerate(row)] for line_no, row in enumerate(csv_reader)]
+                lines = [
+                    [
+                        col if line_no == 0 or i == 0 else str(col)
+                        for i, col in enumerate(row)
+                    ]
+                    for line_no, row in enumerate(csv_reader)
+                ]
                 if len(lines) < 1:
                     print("data file line_num < 1. no data")
                     return
 
-                work_sheet = util.get_google_work_sheet(
-                    spread_sheet=spread_sheet,
-                    file_path_worksheet_id=file_path_worksheet_id,
-                    worksheet_name=worksheet_name,
-                    rows=len(lines),
-                    cols=len(lines[0]),
+                work_sheet = asyncio.run(
+                    util.get_google_work_sheet(
+                        spread_sheet=spread_sheet,
+                        file_path_worksheet_id=file_path_worksheet_id,
+                        worksheet_name=worksheet_name,
+                        rows=len(lines),
+                        cols=len(lines[0]),
+                    )
                 )
 
                 assert all(

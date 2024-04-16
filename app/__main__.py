@@ -1,5 +1,6 @@
 """TSVデータをGoogleスプレッドシートにアップロードする"""
 
+import asyncio
 import os
 from pathlib import Path
 import csv
@@ -12,8 +13,10 @@ from app import const, util
 const.FILENAME_GOOGLE_SPREADSHEET_UPLOAD_FILE_ID = "GOOGLE_SPREADSHEET_UPLOAD_FILE_ID"
 const.GOOGLE_SPREADSHEET_WORKSHEET_ID = "GOOGLE_SPREADSHEET_WORKSHEET_ID"
 
+dir_path = Path(__file__).resolve().parent.parent
 
-def upload_google_spreadsheet(
+
+async def upload_google_spreadsheet(
     credentials_filepath,
     authorized_user_filepath,
     file_path_spreadsheet_file_id,
@@ -23,15 +26,13 @@ def upload_google_spreadsheet(
     worksheet_name,
     file_path_worksheet_id: str,
 ) -> None:
-    dir_path = Path(__file__).resolve().parent.parent
-
     gc = gspread.oauth(
         credentials_filename=credentials_filepath,  # 認証用のJSONファイル
         authorized_user_filename=authorized_user_filepath,  # 証明書の出力ファイル（初回アクセス時に１度だけ作成させられる）
     )
 
     # スプレッドシートを取得
-    spread_sheet = util.get_google_spread_sheet(
+    spread_sheet = await util.get_google_spread_sheet(
         gc=gc,
         file_path_spreadsheet_file_id=file_path_spreadsheet_file_id,
         file_name=google_spreadsheet_upload_file_name,
@@ -45,13 +46,16 @@ def upload_google_spreadsheet(
             raise Exception("data file invalid")
 
         # TSVデータを２次元配列に変換
-        lines = [[col if line_no == 0 or i == 0 else float(col) for i, col in enumerate(row)] for line_no, row in enumerate(csv_reader)]
+        lines = [
+            [col if line_no == 0 or i == 0 else float(col) for i, col in enumerate(row)]
+            for line_no, row in enumerate(csv_reader)
+        ]
         if len(lines) < 1:
             print("data file line_num < 1. no data")
             return
 
         # スプレッドシート内のシートを取得
-        work_sheet = util.get_google_work_sheet(
+        work_sheet = await util.get_google_work_sheet(
             spread_sheet=spread_sheet,
             file_path_worksheet_id=file_path_worksheet_id,
             worksheet_name=worksheet_name,
@@ -63,12 +67,12 @@ def upload_google_spreadsheet(
         work_sheet.append_rows(lines)  # 改めてTSVの内容を書き込む
 
 
-def main():
+async def main():
     load_dotenv(override=True)
 
     dir_path = Path(__file__).resolve().parent.parent
 
-    upload_google_spreadsheet(
+    await upload_google_spreadsheet(
         credentials_filepath=os.path.join(
             dir_path, os.environ["CLIENT_SECRET_JSON_FILE"]
         ),
@@ -93,4 +97,4 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    asyncio.run(main())
