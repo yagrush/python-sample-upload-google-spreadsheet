@@ -35,7 +35,7 @@ pip install python-dotenv
 ```
 
 ### `client_secret_***************.json`を配備する
-GCPからダウンロードした `client_secret_***************.json` をプロジェクト内の `app/` に置く
+GCPからダウンロードした `client_secret_***************.json` をプロジェクトルートに置く
 
 ### `.env` を作成する
 このプロジェクト直下に、.env.exampleを参考にして .env を作成する

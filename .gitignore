@@ -160,6 +160,6 @@ cython_debug/
 #.idea/
 
 authorized_user.json
-client_secret.json
+client_secret_*.json
 GOOGLE_SPREADSHEET_UPLOAD_FILE_ID
 GOOGLE_SPREADSHEET_WORKSHEET_ID

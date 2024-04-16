@@ -64,14 +64,28 @@ def get_google_work_sheet(
         try:
             work_sheet = spread_sheet.get_worksheet_by_id(worksheet_id)
             return work_sheet
-        except gspread.exceptions.SpreadsheetNotFound as e:
+        except (
+            gspread.exceptions.WorksheetNotFound,
+            gspread.exceptions.SpreadsheetNotFound,
+        ) as e:
             print(e)
             print(f"worksheet-id: {worksheet_id} is invalid. create new")
 
-    work_sheet = spread_sheet.add_worksheet(worksheet_name, rows, cols)
-    write_str_to_file(
-        file_path_worksheet_id,
-        str(work_sheet.id),
-    )
+    try:
+        work_sheet = spread_sheet.add_worksheet(worksheet_name, rows, cols)
+        write_str_to_file(
+            file_path_worksheet_id,
+            str(work_sheet.id),
+        )
 
-    return work_sheet
+        return work_sheet
+    except gspread.exceptions.APIError as e:
+        if e.code == 400:
+            work_sheet = spread_sheet.worksheet(worksheet_name)
+            write_str_to_file(
+                file_path_worksheet_id,
+                str(work_sheet.id),
+            )
+            return work_sheet
+        else:
+            raise e
