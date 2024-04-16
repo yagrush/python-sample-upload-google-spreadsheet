@@ -8,8 +8,6 @@ services:
             dockerfile: Dockerfile
         volumes:
             - vol-app-python-sample-upload-google-spreadsheet:/app
-        # tty:
-        #    true
 
 volumes:
     vol-app-python-sample-upload-google-spreadsheet:

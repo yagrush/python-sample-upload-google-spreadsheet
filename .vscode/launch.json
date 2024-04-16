@@ -4,13 +4,6 @@
   // 詳細情報は次を確認してください: https://go.microsoft.com/fwlink/?linkid=830387
   "version": "0.2.0",
   "configurations": [
-    // {
-    //   "name": "Python デバッガー: 現在のファイル",
-    //   "type": "debugpy",
-    //   "request": "launch",
-    //   "program": "${workspaceRoot}/app/__main__.py",
-    //   "console": "integratedTerminal"
-    // },
     {
       "name": "Python デバッガー: app",
       "type": "debugpy",
@@ -22,7 +15,6 @@
       "type": "debugpy",
       "request": "launch",
       "program": "${file}",
-      // "module": "app",
       "purpose": ["debug-test"],
       "console": "integratedTerminal",
       "justMyCode": false,
