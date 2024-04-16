@@ -10,7 +10,7 @@ make up
 
 ### down container with clearing cache
 ```
-make down
+make down-v
 ```
 
 ## development setup
@@ -32,6 +32,7 @@ source ./.venv/bin/activate
 pip install pytest
 pip install gspread
 pip install python-dotenv
+pip install PyYAML
 ```
 
 ### `client_secret_***************.json`を配備する
