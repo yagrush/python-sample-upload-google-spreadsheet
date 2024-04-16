@@ -22,7 +22,7 @@ def read_str_from_file(file) -> str | None:
         return None
 
 
-def get_google_spread_sheet(
+async def get_google_spread_sheet(
     gc: gspread.Client,
     file_path_spreadsheet_file_id: str,
     file_name: str,
@@ -51,7 +51,7 @@ def get_google_spread_sheet(
     return spread_sheet
 
 
-def get_google_work_sheet(
+async def get_google_work_sheet(
     spread_sheet: gspread.spreadsheet.Spreadsheet,
     file_path_worksheet_id: str,
     worksheet_name: str,
