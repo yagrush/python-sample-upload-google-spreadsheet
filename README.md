@@ -1,6 +1,7 @@
 # python-sample-upload-google-spreadsheet
 
 TSVデータをGoogleスプレッドシートにアップロードする
+Upload TSV data to Google Sheets
 
 ## run on docker container
 ### up
@@ -16,12 +17,13 @@ make down-v
 ## development setup
 ### GCP
 GCPで以下の手順を実施しておく必要がある
-1. プロジェクト作成（必要であれば
-2. Google Drive API 有効化
-3. Google Sheets API 有効化
-4. OAuth 同意画面の設定
-5. 認証情報の作成
-6. client_secret_***************.jsonをダウンロード
+You need to perform the following steps on GCP.
+1. create GCP project（as needed)
+2. Google Drive API 有効化 https://console.cloud.google.com/apis/api/drive.googleapis.com/
+3. Google Sheets API 有効化 https://console.cloud.google.com/apis/api/sheets.googleapis.com/
+4. OAuth 同意画面の設定 https://console.cloud.google.com/apis/credentials/
+5. 認証情報の作成 https://console.cloud.google.com/apis/credentials/consent
+6. download : client_secret_***************.json
 
 ### local
 ```
@@ -35,23 +37,28 @@ pip install python-dotenv
 pip install PyYAML
 ```
 
-### `client_secret_***************.json`を配備する
+### place `client_secret_***************.json` in this project root directory
 GCPからダウンロードした `client_secret_***************.json` をプロジェクトルートに置く
 
-### `.env` を作成する
+### create `.env`
 このプロジェクト直下に、.env.exampleを参考にして .env を作成する
+Create .env directly under this project using .env.example as a reference.
 * CLIENT_SECRET_JSON_FILE
-  GCPからダウンロードした client_secret_***************.json ファイル名
+  filename: client_secret_***************.json
 * AUTHORIZED_USER_JSON_FILE
-  特に変更しなくて良い
+  No need to change anything
 * GOOGLE_SPREADSHEET_UPLOAD_FOLDER_ID
   GoogleスプレッドシートをアップロードしたいGoogleドライブフォルダのID
+  ID of the Google Drive folder where you want to upload the Google Spreadsheet
 * GOOGLE_SPREADSHEET_UPLOAD_FILE_NAME
   アップロードしたいGoogleスプレッドシート名
+  Google spreadsheet name you want to upload
 * GOOGLE_SPREADSHEET_WORKSHEET_NAME
   データを書き込みたいGoogleスプレッドシート内のシート名
+  Sheet name in Google Sheets to which you want to write data
 * FILENAME_DATA_TSV
   データTSVファイル名
+  Data TSV file name
 
 ## development tips
 ### to exit venv
