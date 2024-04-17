@@ -5,10 +5,11 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "name": "Python デバッガー: app",
+      "name": "Python デバッガー: src/__main__",
       "type": "debugpy",
       "request": "launch",
-      "module": "app"
+      "args": ["-s", "hogehoge"],
+      "module": "src"
     },
     {
       "name": "Python デバッガー: test",

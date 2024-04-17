@@ -23,14 +23,14 @@ TEST_TSV_PATH = os.path.join(dir_path, "test.tsv")
 TEST_TSV_DATA = """日時	売上（日本）	売上（アメリカ）	売上（中国）
 2024-04-01	1	2	3
 2024-04-02	1	2	3
-2024-04-03	1	2	3
-2024-04-04	1	2	3
-2024-04-05	1	2	3
+2024-04-03	1	2124.2144	3
+2024-04-04	1	2	314214
+2024-04-05	-111	2	3
 2024-04-06	1	2	3
-2024-04-07	1	2	3
+2024-04-07	1	2	-1414.124412
 2024-04-08	1	2	3
 2024-04-09	1	2	3
-2024-04-10	1	2	3"""
+2024-04-10	1	2.12441	3"""
 
 
 @pytest.fixture()
@@ -46,68 +46,80 @@ def setup_test(tmpdir):
     ) as f:
         f.write(TEST_TSV_DATA)
 
-    csv_file_path = str(tmpfile)
-    path_filename_google_spreadsheet_upload_file_id = os.path.join(
+    client_secret_json_filepath = os.path.join(
+        dir_path, os.environ["CLIENT_SECRET_JSON_FILE"]
+    )
+    authorized_user_filepath = os.path.join(
+        dir_path, os.environ["AUTHORIZED_USER_JSON_FILE"]
+    )
+    spreadsheet_name = "testspread"
+    upload_folder_id = os.environ["GOOGLE_SPREADSHEET_UPLOAD_FOLDER_ID"]
+    tsv_file_path = str(tmpfile)
+    worksheet_name = "testwork"
+    spreadsheet_id_filepath = os.path.join(
         dir_path, FILENAME_GOOGLE_SPREADSHEET_UPLOAD_FILE_ID
     )
+    worksheet_id_filepath = os.path.join(dir_path, TEST_GOOGLE_SPREADSHEET_WORKSHEET_ID)
 
     # テスト関数に渡すパラメータを順次返す
     yield (
-        os.path.join(dir_path, os.environ["CLIENT_SECRET_JSON_FILE"]),
-        os.path.join(dir_path, os.environ["AUTHORIZED_USER_JSON_FILE"]),
-        path_filename_google_spreadsheet_upload_file_id,
-        "test",
-        os.environ["GOOGLE_SPREADSHEET_UPLOAD_FOLDER_ID"],
-        csv_file_path,
-        "test",
-        os.path.join(dir_path, TEST_GOOGLE_SPREADSHEET_WORKSHEET_ID),
+        client_secret_json_filepath,
+        authorized_user_filepath,
+        spreadsheet_name,
+        upload_folder_id,
+        tsv_file_path,
+        worksheet_name,
+        spreadsheet_id_filepath,
+        worksheet_id_filepath,
     )
 
     # テストの後処理： 不要なファイルを消す
     tmpfile.remove()
-    os.remove(path_filename_google_spreadsheet_upload_file_id)
-    os.remove(os.path.join(dir_path, TEST_GOOGLE_SPREADSHEET_WORKSHEET_ID))
+    os.remove(spreadsheet_id_filepath)
+    os.remove(worksheet_id_filepath)
 
 
 def test_upload_google_spreadsheet(setup_test):
-    """upload_google_spreadsheet()の単体テスト"""
+    """
+    upload_google_spreadsheet()の単体テスト
+    実行するには .env を作成し設定してください
+    """
     try:
-
         (
-            credentials_filepath,
+            client_secret_json_filepath,
             authorized_user_filepath,
-            file_path_spreadsheet_file_id,
-            google_spreadsheet_upload_file_name,
-            google_spreadsheet_upload_folder_id,
+            spreadsheet_name,
+            upload_folder_id,
             tsv_file_path,
             worksheet_name,
-            file_path_worksheet_id,
+            spreadsheet_id_filepath,
+            worksheet_id_filepath,
         ) = setup_test
 
         asyncio.run(
             upload_google_spreadsheet(
-                credentials_filepath,
-                authorized_user_filepath,
-                file_path_spreadsheet_file_id,
-                google_spreadsheet_upload_file_name,
-                google_spreadsheet_upload_folder_id,
-                tsv_file_path,
-                worksheet_name,
-                file_path_worksheet_id,
+                client_secret_json_filepath=client_secret_json_filepath,
+                authorized_user_filepath=authorized_user_filepath,
+                spreadsheet_name=spreadsheet_name,
+                upload_folder_id=upload_folder_id,
+                tsv_file_path=tsv_file_path,
+                worksheet_name=worksheet_name,
+                spreadsheet_id_filepath=spreadsheet_id_filepath,
+                worksheet_id_filepath=worksheet_id_filepath,
             )
         )
 
         gc = gspread.oauth(
-            credentials_filename=credentials_filepath,
+            credentials_filename=client_secret_json_filepath,
             authorized_user_filename=authorized_user_filepath,
         )
 
         spread_sheet = asyncio.run(
             get_google_spread_sheet(
                 gc=gc,
-                file_path_spreadsheet_file_id=file_path_spreadsheet_file_id,
-                file_name=google_spreadsheet_upload_file_name,
-                folder_id=google_spreadsheet_upload_folder_id,
+                file_path_spreadsheet_file_id=spreadsheet_id_filepath,
+                file_name=spreadsheet_name,
+                folder_id=upload_folder_id,
             )
         )
 
@@ -131,7 +143,7 @@ def test_upload_google_spreadsheet(setup_test):
                 work_sheet = asyncio.run(
                     get_google_work_sheet(
                         spread_sheet=spread_sheet,
-                        file_path_worksheet_id=file_path_worksheet_id,
+                        file_path_worksheet_id=worksheet_id_filepath,
                         worksheet_name=worksheet_name,
                         rows=len(lines),
                         cols=len(lines[0]),
