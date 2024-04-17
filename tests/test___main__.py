@@ -49,7 +49,7 @@ def setup_test(tmpdir):
     client_secret_json_filepath = os.path.join(
         dir_path, os.environ["CLIENT_SECRET_JSON_FILE"]
     )
-    authorized_user_filepath = os.path.join(
+    authorized_user_filename = os.path.join(
         dir_path, os.environ["AUTHORIZED_USER_JSON_FILE"]
     )
     spreadsheet_name = "testspread"
@@ -64,7 +64,7 @@ def setup_test(tmpdir):
     # テスト関数に渡すパラメータを順次返す
     yield (
         client_secret_json_filepath,
-        authorized_user_filepath,
+        authorized_user_filename,
         spreadsheet_name,
         upload_folder_id,
         tsv_file_path,
@@ -87,7 +87,7 @@ def test_upload_google_spreadsheet(setup_test):
     try:
         (
             client_secret_json_filepath,
-            authorized_user_filepath,
+            authorized_user_filename,
             spreadsheet_name,
             upload_folder_id,
             tsv_file_path,
@@ -99,7 +99,7 @@ def test_upload_google_spreadsheet(setup_test):
         asyncio.run(
             upload_google_spreadsheet(
                 client_secret_json_filepath=client_secret_json_filepath,
-                authorized_user_filepath=authorized_user_filepath,
+                authorized_user_filename=authorized_user_filename,
                 spreadsheet_name=spreadsheet_name,
                 upload_folder_id=upload_folder_id,
                 tsv_file_path=tsv_file_path,
@@ -111,7 +111,7 @@ def test_upload_google_spreadsheet(setup_test):
 
         gc = gspread.oauth(
             credentials_filename=client_secret_json_filepath,
-            authorized_user_filename=authorized_user_filepath,
+            authorized_user_filename=authorized_user_filename,
         )
 
         spread_sheet = asyncio.run(
