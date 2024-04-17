@@ -52,14 +52,14 @@ runc:
 req:
 	pip freeze > requirements.txt
 
-venv:
+venv-start:
 	python -m venv .venv
 	chmod 777 .venv/bin/activate
 	source ./.venv/bin/activate
+	@make pip-r
 
 deactivate:
 	deactivate
 
-pip-e:
-	pip install -e .
+pip-r:
 	pip install -r requirements.txt
