@@ -1,4 +1,4 @@
-import app.util
+from src.uploadgsp.util import write_str_to_file, read_str_from_file
 import pytest
 import os
 
@@ -12,7 +12,7 @@ import os
     ],
 )
 def test_write_str_to_file(file, s: str):
-    app.util.write_str_to_file(file, s)
+    write_str_to_file(file, s)
 
     with open(
         file=file,
@@ -38,5 +38,5 @@ def test_read_str_from_file(file, s):
         encoding="UTF-8",
     ) as f:
         f.write(s)
-    assert app.util.read_str_from_file(f.name) == s
+    assert read_str_from_file(f.name) == s
     os.remove(file)

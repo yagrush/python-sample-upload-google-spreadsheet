@@ -7,8 +7,8 @@ import csv
 import gspread
 import pytest
 from dotenv import load_dotenv
-from app import util
-import app.__main__
+from src.uploadgsp import upload_google_spreadsheet
+from src.uploadgsp.util import get_google_spread_sheet, get_google_work_sheet
 
 FILENAME_GOOGLE_SPREADSHEET_UPLOAD_FILE_ID = (
     "TEST_FILENAME_GOOGLE_SPREADSHEET_UPLOAD_FILE_ID"
@@ -85,7 +85,7 @@ def test_upload_google_spreadsheet(setup_test):
         ) = setup_test
 
         asyncio.run(
-            app.__main__.upload_google_spreadsheet(
+            upload_google_spreadsheet(
                 credentials_filepath,
                 authorized_user_filepath,
                 file_path_spreadsheet_file_id,
@@ -103,7 +103,7 @@ def test_upload_google_spreadsheet(setup_test):
         )
 
         spread_sheet = asyncio.run(
-            util.get_google_spread_sheet(
+            get_google_spread_sheet(
                 gc=gc,
                 file_path_spreadsheet_file_id=file_path_spreadsheet_file_id,
                 file_name=google_spreadsheet_upload_file_name,
@@ -129,7 +129,7 @@ def test_upload_google_spreadsheet(setup_test):
                     return
 
                 work_sheet = asyncio.run(
-                    util.get_google_work_sheet(
+                    get_google_work_sheet(
                         spread_sheet=spread_sheet,
                         file_path_worksheet_id=file_path_worksheet_id,
                         worksheet_name=worksheet_name,

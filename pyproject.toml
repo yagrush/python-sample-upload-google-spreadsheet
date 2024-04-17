@@ -7,6 +7,6 @@ license = "LICENSE"
 authors = ["yagrush"]
 
 [tool.pytest.ini_options]
-pythonpath = ["app"]
+pythonpath = ["src"]
 testpaths = ["tests"]
 python_files = ["test_*.py"]

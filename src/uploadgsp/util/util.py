@@ -1,7 +1,11 @@
 import gspread
+import re
 
 
 def write_str_to_file(file, s: str):
+    """
+    fileにstrとしてsを書き込む
+    """
     with open(
         file=file,
         mode="w",
@@ -11,6 +15,9 @@ def write_str_to_file(file, s: str):
 
 
 def read_str_from_file(file) -> str | None:
+    """
+    fileをstrとして読んで返す
+    """
     try:
         with open(
             file=file,
@@ -20,6 +27,11 @@ def read_str_from_file(file) -> str | None:
             return f.read()
     except FileNotFoundError:
         return None
+
+
+def convert_str_or_float(s: str) -> str | float:
+    """sが整数or少数だったらfloatに変換して返す"""
+    return float(s) if re.fullmatch(r"-?\d+(\.\d+)?", s) is not None else str(s)
 
 
 async def get_google_spread_sheet(
