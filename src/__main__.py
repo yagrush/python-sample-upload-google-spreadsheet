@@ -34,10 +34,10 @@ def main(args):
     )
     parser.add_argument(
         "-a",
-        "--authorized_user_filepath",
+        "--authorized_user_filename",
         type=str,
         default=os.environ["AUTHORIZED_USER_JSON_FILE"],
-        help="File path for authenticated user's certificate generated after initial authentication",
+        help="File name for authenticated user's certificate generated after initial authentication",
         required=False,
     )
     parser.add_argument(
@@ -94,7 +94,7 @@ def main(args):
     asyncio.run(
         upload_google_spreadsheet(
             client_secret_json_filepath=args_parsed.client_secret_json_filepath,
-            authorized_user_filepath=args_parsed.authorized_user_filepath,
+            authorized_user_filename=args_parsed.authorized_user_filename,
             spreadsheet_name=args_parsed.spreadsheet_name,
             upload_folder_id=args_parsed.upload_folder_id,
             tsv_file_path=args_parsed.tsv_file_path,

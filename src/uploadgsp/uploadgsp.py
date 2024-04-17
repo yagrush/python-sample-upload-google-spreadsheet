@@ -12,7 +12,7 @@ dir_path = Path(__file__).resolve().parent.parent
 
 async def upload_google_spreadsheet(
     client_secret_json_filepath,
-    authorized_user_filepath,
+    authorized_user_filename,
     spreadsheet_name,
     upload_folder_id,
     tsv_file_path,
@@ -23,7 +23,7 @@ async def upload_google_spreadsheet(
     """TSVデータをGoogleスプレッドシートにアップロードする"""
     gc = gspread.oauth(
         credentials_filename=client_secret_json_filepath,  # 認証用のJSONファイル
-        authorized_user_filename=authorized_user_filepath,  # 証明書の出力ファイル（初回アクセス時に１度だけ作成させられる）
+        authorized_user_filename=authorized_user_filename,  # 証明書の出力ファイル（初回アクセス時に１度だけ作成させられる）
     )
 
     # スプレッドシートを取得
