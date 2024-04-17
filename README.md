@@ -18,7 +18,7 @@ make down-v
 ### GCP
 GCPで以下の手順を実施しておく必要がある
 You need to perform the following steps on GCP.
-1. create GCP project（as needed)
+1. create GCP project (as needed)
 2. Google Drive API 有効化 https://console.cloud.google.com/apis/api/drive.googleapis.com/
 3. Google Sheets API 有効化 https://console.cloud.google.com/apis/api/sheets.googleapis.com/
 4. OAuth 同意画面の設定 https://console.cloud.google.com/apis/credentials/
@@ -51,12 +51,26 @@ Create .env directly under this project using .env.example as a reference.
 ## development tips
 
 ### run on local
+
+#### setup
 ```
 python -m venv .venv
 chmod 777 .venv/bin/activate
 source ./.venv/bin/activate
 
-pip install -e .
+pip install -r requirements.txt
+```
+
+#### command-line help
+```
+python -m src -h
+```
+
+#### run
+all args is not required.
+default value refers to .env file.
+```
+python -m src [args...]
 ```
 
 ### to exit venv
