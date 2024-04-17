@@ -25,18 +25,6 @@ You need to perform the following steps on GCP.
 5. 認証情報の作成 https://console.cloud.google.com/apis/credentials/consent
 6. download : client_secret_***************.json
 
-### local
-```
-python -m venv .venv
-chmod 777 .venv/bin/activate
-source ./.venv/bin/activate
-
-pip install pytest
-pip install gspread
-pip install python-dotenv
-pip install PyYAML
-```
-
 ### place `client_secret_***************.json` in this project root directory
 GCPからダウンロードした `client_secret_***************.json` をプロジェクトルートに置く
 
@@ -61,6 +49,16 @@ Create .env directly under this project using .env.example as a reference.
   Data TSV file name
 
 ## development tips
+
+### run on local
+```
+python -m venv .venv
+chmod 777 .venv/bin/activate
+source ./.venv/bin/activate
+
+pip install -e .
+```
+
 ### to exit venv
 venvを抜けたい時
 ```

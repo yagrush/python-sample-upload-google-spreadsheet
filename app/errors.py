@@ -1,2 +1,0 @@
-class ConstError(TypeError):
-    pass

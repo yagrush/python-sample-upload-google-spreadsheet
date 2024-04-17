@@ -11,7 +11,8 @@ up-dd:
 	docker-compose up --build -d
 
 clear:
-	rm -Rf app/GOOGLE_* app/__pycache__/
+	rm -Rf GOOGLE_SPREADSHEET_WORKSHEET_ID
+	rm -Rf GOOGLE_SPREADSHEET_UPLOAD_FILE_ID
 
 start:
 	docker-compose start
@@ -42,7 +43,11 @@ docker-prune:
 	docker system prune -a
 
 run:
-	python -m app
+	python -m src
+
+runc:
+	@make clear
+	python -m src
 
 req:
 	pip freeze > requirements.txt
@@ -51,13 +56,10 @@ venv:
 	python -m venv .venv
 	chmod 777 .venv/bin/activate
 	source ./.venv/bin/activate
-	pip install pytest
-	pip install gspread
-	pip install python-dotenv
-	pip install PyYAML
 
 deactivate:
 	deactivate
 
-pip-r:
+pip-e:
+	pip install -e .
 	pip install -r requirements.txt
