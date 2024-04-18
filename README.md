@@ -3,18 +3,7 @@
 TSVデータをGoogleスプレッドシートにアップロードする
 Upload TSV data to Google Sheets
 
-## run on docker container
-### up
-```
-make up
-```
-
-### down container with clearing cache
-```
-make down-v
-```
-
-## development setup
+## initial setup
 ### GCP
 GCPで以下の手順を実施しておく必要がある
 You need to perform the following steps on GCP.
@@ -48,8 +37,6 @@ Create .env directly under this project using .env.example as a reference.
   データTSVファイル名
   Data TSV file name
 
-## development tips
-
 ### run on local
 
 #### setup
@@ -61,12 +48,38 @@ source ./.venv/bin/activate
 pip install -r requirements.txt
 ```
 
-#### command-line help
+#### run
+```
+make run
+```
+ルートディレクトリに authorized_user.json が作成される
+
+authorized_user.json is created in the root directory.
+
+
+### run on docker container
+authorized_user.json があれば、あとはdockerで実行できる
+
+If you have authorized_user.json, you can run it with docker.
+
+#### up
+```
+make up
+```
+
+#### down container with clearing cache
+```
+make down-v
+```
+
+## development tips
+
+### command-line help
 ```
 python -m src -h
 ```
 
-#### run
+### run
 all args is not required.
 default value refers to .env file.
 ```

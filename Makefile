@@ -4,11 +4,14 @@ test:
 up:
 	docker-compose up
 
-up-d:
+up-b:
 	docker-compose up --build
 
-up-dd:
+up-bd:
 	docker-compose up --build -d
+
+up-bc:
+	docker-compose build --no-cache && docker-compose up
 
 clear:
 	rm -Rf GOOGLE_SPREADSHEET_WORKSHEET_ID
