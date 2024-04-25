@@ -1,6 +1,12 @@
 test:
 	pytest -vv
 
+rund:
+	docker-compose run --rm app-python-sample-upload-google-spreadsheet python -m src
+
+lsd:
+	docker container ls -a
+
 up:
 	docker-compose up
 

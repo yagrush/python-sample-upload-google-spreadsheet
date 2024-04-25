@@ -64,12 +64,7 @@ If you have authorized_user.json, you can run it with docker.
 
 #### up
 ```
-make up
-```
-
-#### down container with clearing cache
-```
-make down-v
+make rund
 ```
 
 ## development tips
