@@ -57,9 +57,9 @@ def setup_test(tmpdir):
     tsv_file_path = str(tmpfile)
     worksheet_name = "testwork"
     spreadsheet_id_filepath = os.path.join(
-        dir_path, FILENAME_GOOGLE_SPREADSHEET_UPLOAD_FILE_ID
+        "/tmp", FILENAME_GOOGLE_SPREADSHEET_UPLOAD_FILE_ID
     )
-    worksheet_id_filepath = os.path.join(dir_path, TEST_GOOGLE_SPREADSHEET_WORKSHEET_ID)
+    worksheet_id_filepath = os.path.join("/tmp", TEST_GOOGLE_SPREADSHEET_WORKSHEET_ID)
 
     # テスト関数に渡すパラメータを順次返す
     yield (

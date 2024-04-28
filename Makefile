@@ -20,8 +20,8 @@ up-bc:
 	docker-compose build --no-cache && docker-compose up
 
 clear:
-	rm -Rf GOOGLE_SPREADSHEET_WORKSHEET_ID
-	rm -Rf GOOGLE_SPREADSHEET_UPLOAD_FILE_ID
+	rm -Rf /tmp/GOOGLE_SPREADSHEET_WORKSHEET_ID
+	rm -Rf /tmp/GOOGLE_SPREADSHEET_UPLOAD_FILE_ID
 
 start:
 	docker-compose start
@@ -72,3 +72,13 @@ deactivate:
 
 pip-r:
 	pip install -r requirements.txt
+
+up-lam:
+	docker-compose -f lambda-docker-compose.yaml up --build -d
+
+lam:
+#	local lambda test
+	curl -XPOST "http://localhost:9000/2015-03-31/functions/function/invocations" -d '{"hogehoge": "fuga"}'
+
+down-lam:
+	docker-compose -f lambda-docker-compose.yaml down

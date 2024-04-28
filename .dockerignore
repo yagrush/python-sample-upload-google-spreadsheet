@@ -11,3 +11,4 @@ tests/__pycache__
 *.egg-info/
 GOOGLE_SPREADSHEET_UPLOAD_FILE_ID
 GOOGLE_SPREADSHEET_WORKSHEET_ID
+auth_token.py*

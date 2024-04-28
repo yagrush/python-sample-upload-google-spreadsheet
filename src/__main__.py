@@ -76,7 +76,7 @@ def main(args):
         "-i",
         "--spreadsheet_id_filepath",
         type=str,
-        default=os.path.join(dir_path, FILENAME_GOOGLE_SPREADSHEET_UPLOAD_FILE_ID),
+        default=os.path.join("/tmp", FILENAME_GOOGLE_SPREADSHEET_UPLOAD_FILE_ID),
         help="Path to the file that stores spreadsheet ID",
         required=False,
     )
@@ -84,7 +84,7 @@ def main(args):
         "-j",
         "--worksheet_id_filepath",
         type=str,
-        default=os.path.join(dir_path, GOOGLE_SPREADSHEET_WORKSHEET_ID),
+        default=os.path.join("/tmp", GOOGLE_SPREADSHEET_WORKSHEET_ID),
         help="Path to the file that stores worksheet ID",
         required=False,
     )

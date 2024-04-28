@@ -160,6 +160,7 @@ cython_debug/
 #.idea/
 
 authorized_user.json
-client_secret_*.json
+client_secret*.json
 GOOGLE_SPREADSHEET_UPLOAD_FILE_ID
 GOOGLE_SPREADSHEET_WORKSHEET_ID
+auth_token.py:Zone.Identifier

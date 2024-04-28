@@ -52,10 +52,24 @@ pip install -r requirements.txt
 ```
 make run
 ```
-ルートディレクトリに authorized_user.json が作成される
+初回のみ、ブラウザが起動し
+* Googleドライブ
+* Googleスプレッドシート
 
-authorized_user.json is created in the root directory.
+へのアクセス許可を求められる
+許可したらブラウザを閉じてよい
+するとルートディレクトリに authorized_user.json が作成される
 
+##### ブラウザが起動しない時
+WSL内シェルなどの環境ではブラウザが起動できないため上記手続きができない
+その場合、以下の手順を実行する
+1. Windowsのコマンドプロンプトの環境変数PATHにChrome.exeがインストールされているパスを追加
+2. 以下のコマンドをコマンドプロンプトで実行
+```
+cd \\wsl.localhost\Ubuntu\path\to\python-sample-upload-google-spreadsheet
+python auth_token.py
+```
+3. Chromeが起動し authorized_user.json 作成手順が開始される
 
 ### run on docker container
 authorized_user.json があれば、あとはdockerで実行できる
@@ -91,4 +105,20 @@ deactivate
 新しいライブラリをimportした場合に必ず実行してください
 ```
 make req
+```
+
+## local dockerでlambda関数として動かす
+### ビルド
+```
+docker-compose -f lambda-docker-compose.yaml up --build -d
+```
+
+### 実行
+```
+curl -XPOST "http://localhost:9000/2015-03-31/functions/function/invocations" -d '{"hogehoge": "fuga"}'
+```
+
+### 破棄
+```
+docker-compose -f lambda-docker-compose.yaml down
 ```

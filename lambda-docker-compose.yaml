@@ -1,0 +1,11 @@
+version: '3'
+services:
+    app-python-sample-upload-google-spreadsheet-lambda:
+        container_name: app-python-sample-upload-google-spreadsheet-lambda
+        image: app-python-sample-upload-google-spreadsheet-lambda
+        build:
+            context: .
+            dockerfile: lambda.Dockerfile
+        tty: true
+        ports:
+          - 9000:8080
